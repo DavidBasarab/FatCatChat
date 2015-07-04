@@ -1,3 +1,13 @@
 <div ng-controller="spikeWebRTCCallController as viewModel">
-    <p>Just to make sure I am hooked up {{viewModel.TestHello}}</p>
+    <div>
+        <div>Audio Control</div>
+        <audio id="audio1" autoplay controls></audio>
+        <button ng-click="viewModel.onCallClick()">Call</button>
+    </div>
+    <br><br><br>
+    <div>
+        <div id="loggingData">
+
+        </div>
+    </div>
 </div>
