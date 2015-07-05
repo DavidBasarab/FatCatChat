@@ -1,13 +1,41 @@
 <div ng-controller="spikeWebRTCCallController as viewModel">
+    <h1>WebRTC Codelab: Step 2</h1>
+
     <div>
-        <div>Audio Control</div>
-        <audio id="audio1" autoplay controls></audio>
-        <button ng-click="viewModel.onCallClick()">Call</button>
+        <div>
+            <video/>
+            <!--button ng-click="viewModel.onCallClick">Call</button-->
+        </div>
     </div>
     <br><br><br>
+
     <div>
         <div id="loggingData">
 
         </div>
     </div>
+
+    <script>
+        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+
+        var constraints = {
+            video: true
+        };
+
+        function successCallback(stream) {
+            window.stream = stream;     // stream available to console
+
+            var video = document.querySelector("video");
+
+            video.src = window.URL.createObjectURL(stream);
+
+            video.play();
+        }
+
+        function errorCallback(error) {
+            console.log("getUserMediaError: ", error);
+        }
+
+        getUserMedia(constraints, successCallback, errorCallback);
+    </script>
 </div>
