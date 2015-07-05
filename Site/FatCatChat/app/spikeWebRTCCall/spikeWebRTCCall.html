@@ -3,39 +3,15 @@
 
     <div>
         <div>
-            <video/>
-            <!--button ng-click="viewModel.onCallClick">Call</button-->
+            <video class="normalPlayer"/>
+            <button ng-click="viewModel.onCallClick()">Call</button>
         </div>
     </div>
     <br><br><br>
 
     <div>
-        <div id="loggingData">
-
-        </div>
+        <div id="loggingData"></div>
     </div>
 
-    <script>
-        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
-        var constraints = {
-            video: true
-        };
-
-        function successCallback(stream) {
-            window.stream = stream;     // stream available to console
-
-            var video = document.querySelector("video");
-
-            video.src = window.URL.createObjectURL(stream);
-
-            video.play();
-        }
-
-        function errorCallback(error) {
-            console.log("getUserMediaError: ", error);
-        }
-
-        getUserMedia(constraints, successCallback, errorCallback);
-    </script>
 </div>
