@@ -1,4 +1,33 @@
 .normalPlayer {
-    height: 240px;
-    width: 320px;
+    height: 100%;
+    width: 100%;
+}
+
+.normalPlayerContainer {
+    margin: auto;
+    height: 20vw;
+    width: 20vw;
+    background: #ff0000;
+}
+
+.playerContainer {
+    height: 20vw;
+    width: 20vw;
+    margin: 10px;
+    border-radius: 25px;
+    border: 3px solid;
+}
+
+.remotePlayer {
+    float: left;
+    border-color: #0000ff;
+}
+
+.localPlayer {
+    float: left;
+    border-color: #800080;
+}
+
+.videoContainers {
+    margin: auto;
 }

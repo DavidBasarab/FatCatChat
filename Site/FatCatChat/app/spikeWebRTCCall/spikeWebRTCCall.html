@@ -1,10 +1,15 @@
 <div ng-controller="spikeWebRTCCallController as viewModel">
-    <h1>WebRTC Codelab: Step 2</h1>
+    <h1>WebRTC Codelab: Step 3</h1>
 
-    <div>
-        <div>
-            <video class="normalPlayer"/>
-            <button ng-click="viewModel.onCallClick()">Call</button>
+    <!--button ng-click="viewModel.onCallClick()">Call</button-->
+
+    <div class="videoContainers">
+        <div class="playerContainer localPlayer">
+
+            <video id="localVideoPlayer" class="normalPlayer"></video>
+        </div>
+        <div class="playerContainer remotePlayer">
+            <video id="remoteVideoPlayer" class="normalPlayer"></video>
         </div>
     </div>
     <br><br><br>
@@ -12,6 +17,4 @@
     <div>
         <div id="loggingData"></div>
     </div>
-
-
 </div>
