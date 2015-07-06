@@ -6,15 +6,29 @@
     <div class="videoContainers">
         <div class="playerContainer localPlayer">
 
-            <video id="localVideoPlayer" class="normalPlayer"></video>
+            <video id="localVideoPlayer" class="normalPlayer" autoplay muted></video>
         </div>
         <div class="playerContainer remotePlayer">
-            <video id="remoteVideoPlayer" class="normalPlayer"></video>
+            <video id="remoteVideoPlayer" class="normalPlayer" autoplay muted></video>
         </div>
+    </div>
+    <div>
+        <button id="startButton" ng-click="viewModel.startClick()">Start
+        </button>
+        <button id="callButton" ng-click="viewModel.callClick()">Call
+        </button>
+        <button id="hangUpButton" ng-click="viewModel.hangUpClick()">Hang
+            Up
+        </button>
     </div>
     <br><br><br>
 
     <div>
         <div id="loggingData"></div>
     </div>
+
+    <script>
+
+
+    </script>
 </div>
