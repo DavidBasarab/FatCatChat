@@ -8,12 +8,14 @@ angular.module('myApp.spikeWebRTCCall', [])
 function spikeWebRTCCallController() {
     var viewModel = this;
 
-    var localStream;
-    var localPeerConnection;
-    var remotePeerConnection;
+    viewModel.localStream;
+    viewModel.localPeerConnection;
+    viewModel.remotePeerConnection;
 
-    var localVideo = $('#localVideoPlayer');
-    var remoteVideo = $('#remoteVideoPlayer');
+    viewModel.localSource = '';
+
+    viewModel.localVideo = $('#localVideoPlayer');
+    viewModel.remoteVideo = $('#remoteVideoPlayer');
 
     viewModel.startButtonDisabled = false;
     viewModel.callButtonDisabled = true;
@@ -26,17 +28,40 @@ function spikeWebRTCCallController() {
     function gotStream(stream) {
         trace("Received local stream");
 
-        localVideo.src = URL.createObjectURL(stream);
-        localStream = stream;
+        var videoContainer = $('#localVideoContainer');
 
-        viewModel.callButtonDisabled = false;
+        var videoElement = $('<video></video>');
+
+        videoElement.attr('src', URL.createObjectURL(stream));
+        videoElement.attr('id', 'localPlayer');
+        videoElement.addClass('testVideoSize');
+
+        videoContainer.append(videoElement);
+
+        window.setTimeout(function() {
+            $('#localPlayer').get(0).play();
+        }, 10);
+
+        //viewModel.localVideo.src = URL.createObjectURL(stream);
+
+        //viewModel.localVideo.html(URL.createObjectURL(stream));
+        //
+        viewModel.localStream = stream;
+        //
+        //viewModel.callButtonDisabled = false;
+
+        //trace('LocalVideo.src = ' + viewModel.localVideo.src);
     }
 
     viewModel.startClick = function() {
         trace('Requesting local stream');
 
-        viewModel.startButtonDisabled = true;
+        //viewModel.localSource = 'http://media.w3.org/2010/05/sintel/trailer.mp4';
 
+        //viewModel.localVideo.src = 'http://media.w3.org/2010/05/sintel/trailer.mp4';
+
+        //viewModel.startButtonDisabled = true;
+        //
         getUserMedia({
             audio: true,
             video: true

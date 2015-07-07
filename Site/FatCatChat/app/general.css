@@ -28,6 +28,12 @@
     border-color: #800080;
 }
 
+.testVideoSize {
+    width: 90%;
+    height: auto;
+    margin: 25px;
+}
+
 .videoContainers {
     margin: auto;
 }

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head lang="en">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1">
+
+        <title>WebRTC codelab: step 3</title>
+
+        <style>
+        </style>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+        <script src="bower_components/webrtc-adapter/adapter.js"></script>
+    </head>
+    <body>
+        <video id="localVideo" autoplay muted></video>
+        <video id="remoteVideo" autoplay muted></video>
+
+        <div>
+            <button id="startButton">Start</button>
+            <button id="callButton">Call</button>
+            <button id="hangupButton">Hang Up</button>
+        </div>
+
+        <script>
+            var localStream;
+            var localPeerConnection;
+            var remotePeerConnection;
+
+            var localVideo = document.getElementById("localVideo");
+            var remoteVideo = document.getElementById("remoteVideo");
+
+            var startButton = document.getElementById("startButton");
+            var callButton = document.getElementById("callButton");
+            var hangupButton = document.getElementById("hangupButton");
+
+            startButton.disabled = false;
+            callButton.disabled = true;
+            hangupButton.disabled = true;
+
+            startButton.onclick = onStartClick;
+            callButton.onclick = onCallClick;
+            hangupButton.onclick = onHangUpClick;
+
+            function trace(text) {
+                console.log((performance.now() / 1000).toFixed(3) + ": " + text);
+            }
+
+            function gotStream(stream) {
+                trace('Received local stream');
+
+                localVideo.src = URL.createObjectURL(stream);
+                localStream = stream;
+
+                callButton.disabled = false;
+
+                trace('localVideo.src = ' + localVideo.src);
+            }
+
+            function onStartClick() {
+                trace('Requesting local stream');
+
+                startButton.disabled = true;
+
+                getUserMedia({
+                    audio: true,
+                    video: true
+                }, gotStream, function(error) {
+                    trace('getUserMedia error: ', error);
+                })
+            }
+
+            function onCallClick() {
+
+            }
+
+            function onHangUpClick() {
+
+            }
+
+        </script>
+    </body>
+</html>
