@@ -25,43 +25,43 @@ function spikeWebRTCCallController() {
         writeMessage(text);
     }
 
-    function gotStream(stream) {
-        trace("Received local stream");
-
-        var videoContainer = $('#localVideoContainer');
+    function createVideoPlayer(options) {
+        var videoContainer = $('#' + options.containerId);
 
         var videoElement = $('<video></video>');
 
-        videoElement.attr('src', URL.createObjectURL(stream));
-        videoElement.attr('id', 'localPlayer');
-        videoElement.addClass('testVideoSize');
+        videoElement.attr('src', options.videoSource);
+        videoElement.attr('id', options.videoPlayerId);
+        videoElement.addClass(options.videoPlayerClass);
 
         videoContainer.append(videoElement);
 
-        window.setTimeout(function() {
-            $('#localPlayer').get(0).play();
-        }, 10);
+        if (options.autoPlay) {
+            window.setTimeout(function() {
+                $('#' + options.videoPlayerId).get(0).play();
+            }, 10);
+        }
+    }
 
-        //viewModel.localVideo.src = URL.createObjectURL(stream);
+    function gotStream(stream) {
+        trace("Received local stream");
 
-        //viewModel.localVideo.html(URL.createObjectURL(stream));
-        //
+        var createPlayerOptions = {
+            containerId: 'localVideoContainer',
+            videoSource: URL.createObjectURL(stream),
+            videoPlayerId: 'localPlayer',
+            videoPlayerClass: 'testVideoSize',
+            autoPlay: true
+        };
+
+        createVideoPlayer(createPlayerOptions);
+
         viewModel.localStream = stream;
-        //
-        //viewModel.callButtonDisabled = false;
-
-        //trace('LocalVideo.src = ' + viewModel.localVideo.src);
     }
 
     viewModel.startClick = function() {
         trace('Requesting local stream');
 
-        //viewModel.localSource = 'http://media.w3.org/2010/05/sintel/trailer.mp4';
-
-        //viewModel.localVideo.src = 'http://media.w3.org/2010/05/sintel/trailer.mp4';
-
-        //viewModel.startButtonDisabled = true;
-        //
         getUserMedia({
             audio: true,
             video: true
