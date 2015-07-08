@@ -8,14 +8,11 @@ angular.module('myApp.spikeWebRTCCall', [])
 function spikeWebRTCCallController() {
     var viewModel = this;
 
-    viewModel.localStream;
-    viewModel.localPeerConnection;
-    viewModel.remotePeerConnection;
+    viewModel.localStream = null;
+    viewModel.localPeerConnection = null;
+    viewModel.remotePeerConnection = null;
 
     viewModel.localSource = '';
-
-    viewModel.localVideo = $('#localVideoPlayer');
-    viewModel.remoteVideo = $('#remoteVideoPlayer');
 
     viewModel.startButtonDisabled = false;
     viewModel.callButtonDisabled = true;
@@ -76,72 +73,81 @@ function spikeWebRTCCallController() {
 
         trace('Starting call');
 
-        if (localStream.getVideoTracks().length > 0) {
-            trace('Using video device: ' + localStream.getVideoTracks()[0].label);
+        if (viewModel.localStream.getVideoTracks().length > 0) {
+            trace('Using video device: ' + viewModel.localStream.getVideoTracks()[0].label);
         }
 
-        if (localStream.getAudioTracks().length > 0) {
-            trace('Using audio device: ' + localStream.getAudioTracks()[0].label);
+        if (viewModel.localStream.getAudioTracks().length > 0) {
+            trace('Using audio device: ' + viewModel.localStream.getAudioTracks()[0].label);
         }
 
         var servers = null;
 
-        localPeerConnection = new RTCPeerConnection(servers);
+        viewModel.localPeerConnection = new RTCPeerConnection(servers);
         trace('Created local peer connection object localPeerConnection');
-        localPeerConnection.onicecandidate = gotLocalIceCandidate;
+        viewModel.localPeerConnection.onicecandidate = gotLocalIceCandidate;
 
-        remotePeerConnection = new RTCPeerConnection(servers);
+        viewModel.remotePeerConnection = new RTCPeerConnection(servers);
         trace('Created remote peer connection object remotePeerConnection');
-        remotePeerConnection.onicecandidate = gotRemoteIceCandidate;
-        remotePeerConnection.onaddstream = gotRemoteStream;
+        viewModel.remotePeerConnection.onicecandidate = gotRemoteIceCandidate;
+        viewModel.remotePeerConnection.onaddstream = gotRemoteStream;
 
-        localPeerConnection.addStream(localStream);
+        viewModel.localPeerConnection.addStream(viewModel.localStream);
         trace('Added localstream to localPeerConnection');
-        localPeerConnection.createOffer(gotLocalDescription, handleError);
+        viewModel.localPeerConnection.createOffer(gotLocalDescription, handleError);
     };
 
     function gotLocalDescription(description) {
-        localPeerConnection.setLocalDescription(description);
+        viewModel.localPeerConnection.setLocalDescription(description);
         trace('Offer from localPeerConnection: \n' + description.spd);
 
-        remotePeerConnection.setRemoteDescription(description);
-        remotePeerConnection.createAnswer(gotRemoteDescription, handleError);
+        viewModel.remotePeerConnection.setRemoteDescription(description);
+        viewModel.remotePeerConnection.createAnswer(gotRemoteDescription, handleError);
     }
 
     function gotRemoteDescription(description) {
-        remotePeerConnection.setLocalDescription(description);
+        viewModel.remotePeerConnection.setLocalDescription(description);
         trace('Answer from remotePeerConnection: \n' + description.spd);
-        localPeerConnection.setRemoteDescription(description);
+        viewModel.localPeerConnection.setRemoteDescription(description);
     }
 
     viewModel.hangUpClick = function() {
         trace('Ending Call');
 
-        localPeerConnection.close();
-        remotePeerConnection.close();
+        viewModel.localPeerConnection.close();
+        viewModel.remotePeerConnection.close();
 
-        localPeerConnection = null;
-        remotePeerConnection = null;
+        viewModel.localPeerConnection = null;
+        viewModel.remotePeerConnection = null;
 
         viewModel.hangUpButtonDisabled = true;
         viewModel.callButtonDisabled = false;
     };
 
     function gotRemoteStream(event) {
-        remoteVideo.src = URL.createObjectURL(event.stream);
         trace('Received remote stream');
+
+        var createPlayerOptions = {
+            containerId: 'remoteVideoContainer',
+            videoSource: URL.createObjectURL(event.stream),
+            videoPlayerId: 'remotePlayer',
+            videoPlayerClass: 'testVideoSize',
+            autoPlay: true
+        };
+
+        createVideoPlayer(createPlayerOptions);
     }
 
     function gotLocalIceCandidate(event) {
         if (event.candidate) {
-            remotePeerConnection.addIceCandidate(new RTCIceCandidate(event.candidate));
+            viewModel.remotePeerConnection.addIceCandidate(new RTCIceCandidate(event.candidate));
             trace("Local ICE candidate: \n" + event.candidate.candidate);
         }
     }
 
     function gotRemoteIceCandidate(event) {
         if (event.candidate) {
-            localPeerConnection.addIceCandidate(new RTCIceCandidate(event.candidate));
+            viewModel.localPeerConnection.addIceCandidate(new RTCIceCandidate(event.candidate));
             trace("Remote ICE candidate: \n " + event.candidate.candidate);
         }
     }
