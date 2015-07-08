@@ -6,6 +6,7 @@ angular.module('myApp', [
     'myApp.view1',
     'myApp.view2',
     'myApp.spikeWebRTCCall',
+    'myApp.spikeTextAreaSending',
     'myApp.version'
 ]).
     config(['$routeProvider', function($routeProvider) {
