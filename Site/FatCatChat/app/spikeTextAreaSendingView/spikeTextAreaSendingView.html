@@ -1,10 +1,11 @@
 <div ng-controller="spikeTSAreaCtrl as viewModel">
-    <textarea id="dataChannelSend" disabled placeholder="Press start, enter some text, then press Send."></textarea>
-    <textarea id="dataChannelReceive" disabled></textarea>
+    <input type="text" id="dataChannelSend"/>
+    <input type="text" id="dataChannelReceive"/>
 
     <div id="buttons">
-        <button id="startButton" ng-click="viewModel.onStartClick()" ng-disabled="viewModel.startDisabled">Start</button>
-        <button id="sendButton">Send</button>
-        <button id="closeButton">Stop</button>
+        <button id="startButton" ng-click="viewModel.onStartClick()" ng-disabled="viewModel.startDisabled">Start
+        </button>
+        <button id="sendButton" ng-click="viewModel.onSendClick()">Send</button>
+        <button id="closeButton" ng-click="viewModel.onCloseClick()">Stop</button>
     </div>
 </div>
