@@ -28,7 +28,8 @@
 
         <h1>Hello World. Welcome to FatCat Chat</h1>
 
-        <div ng-include="'spikeTextAreaSendingView/spikeTextAreaSendingView.html'"></div>
+        <!--<div ng-include="'spikeTextAreaSendingView/spikeTextAreaSendingView.html'"></div>-->
+        <div ng-include="'spikeSingalR/spikeSingalR.html'"></div>
         <!--<div ng-include="'spikeWebRTCCall/spikeWebRTCCall.html'"></div>-->
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
@@ -36,11 +37,13 @@
         <script src="bower_components/angular/angular.js"></script>
         <script src="bower_components/angular-route/angular-route.js"></script>
         <script src="bower_components/webrtc-adapter/adapter.js"></script>
+        <script src="bower_components/signalr/jquery.signalR.js"></script>
         <script src="app.js"></script>
         <script src="view1/view1.js"></script>
         <script src="view2/view2.js"></script>
         <script src="spikeWebRTCCall/spikeWebRTCCallController.js"></script>
         <script src="spikeTextAreaSendingView/spikeTextAreaSendingViewController.js"></script>
+        <script src="spikeSingalR/spikeSingalR.js"></script>
         <script src="components/version/version.js"></script>
         <script src="components/version/version-directive.js"></script>
         <script src="components/version/interpolate-filter.js"></script>
