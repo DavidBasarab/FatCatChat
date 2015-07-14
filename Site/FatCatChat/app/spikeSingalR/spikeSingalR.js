@@ -3,27 +3,27 @@
 navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
 angular.module('myApp.spikeSignalR', [])
-    .controller('spikeSignalRController', [spikeSignalRController]);
+    .controller('spikeSignalRController', ['echoService', spikeSignalRController]);
 
-function spikeSignalRController() {
+function spikeSignalRController(echoService) {
     var viewModel = this;
 
-    var connection = null;
-    var chatProxy = null;
+
 
     viewModel.onStartClick = function() {
-        connection = $.hubConnection('http://localhost:59026/');
-        chatProxy = connection.createHubProxy('chatHub');
-        chatProxy.on('broadcastMessage', onChatMessage);
 
-        connection.start().done(function() {
-            chatProxy.invoke('send', 'FromTheScript', 'This is a test message');
-        });
+        echoService.registerForEvent('broadcastMessage', onChatMessage);
+        echoService.registerForEvent('aNewMessage', onOtherMessage);
+
+        echoService.nextMessage('FromTheScript', 'This is another message', 'I am tired and want to sleep');
+        echoService.send('FromTheScript', 'This is a test message');
     };
 
     function onChatMessage(name, message) {
         console.log(name + ' ' + message);
     }
 
-
+    function onOtherMessage(parameter1, parameter2, parameter3) {
+        console.log(parameter1 + ' ' + parameter2 + ' ' + parameter3);
+    }
 }
