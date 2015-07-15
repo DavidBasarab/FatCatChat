@@ -11,6 +11,7 @@
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
         <script src="bower_components/webrtc-adapter/adapter.js"></script>
+        <script src="bower_components/signalr/jquery.signalR.js"></script>
     </head>
     <body>
         <video id="localVideo" autoplay muted></video>
@@ -23,12 +24,11 @@
         </div>
 
         <script>
-            var localStream;
-            var localPeerConnection;
-            var remotePeerConnection;
-
             var localVideo = document.getElementById("localVideo");
             var remoteVideo = document.getElementById("remoteVideo");
+
+            var connection = null;
+            var chatProxy = null;
 
             var startButton = document.getElementById("startButton");
             var callButton = document.getElementById("callButton");
@@ -46,28 +46,24 @@
                 console.log((performance.now() / 1000).toFixed(3) + ": " + text);
             }
 
-            function gotStream(stream) {
-                trace('Received local stream');
-
-                localVideo.src = URL.createObjectURL(stream);
-                localStream = stream;
-
-                callButton.disabled = false;
-
-                trace('localVideo.src = ' + localVideo.src);
+            function onOtherMessage(parameter1, parameter2, parameter3) {
+                trace('Echo BASE ' + parameter1 + ' ' + parameter2 + ' ' + parameter3);
             }
 
             function onStartClick() {
-                trace('Requesting local stream');
+                connection = $.hubConnection('http://localhost/echo/');
+                chatProxy = connection.createHubProxy('chatHub');
 
-                startButton.disabled = true;
+                chatProxy.on('aNewMessage', onOtherMessage);
 
-                getUserMedia({
-                    audio: true,
-                    video: true
-                }, gotStream, function(error) {
-                    trace('getUserMedia error: ', error);
-                })
+                connection.start().done(function() {
+                    console.log('Connection Start Complete');
+                    nextMessage('Will this work', 'from the test page?', 'more data');
+                });
+            }
+
+            function nextMessage(parameter1, parameter2, parameter3) {
+                chatProxy.invoke('nextMessage', parameter1, parameter2, parameter3);
             }
 
             function onCallClick() {

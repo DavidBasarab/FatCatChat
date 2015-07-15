@@ -12,17 +12,12 @@ var chatProxy = null;
 function echoService(echoUrl, $rootScope) {
     connection = $.hubConnection(echoUrl);
     chatProxy = connection.createHubProxy('chatHub');
-
-    connection.start().done(function() {
-        console.log('Connection Start Complete');
-    });
+    var started = false;
 
     //chatProxy.on('broadcastMessage', onChatMessage);
     function onOtherMessage(parameter1, parameter2, parameter3) {
         console.log('from echoService = ' + parameter1 + ' ' + parameter2 + ' ' + parameter3);
     }
-
-    chatProxy.on('aNewMessage', onOtherMessage);
 
     function registerForEvent(eventName, callback) {
         chatProxy.on(eventName, function(result) {
@@ -32,10 +27,19 @@ function echoService(echoUrl, $rootScope) {
                 }
             });
         });
+
+        if (!started) {
+            connection.start().done(function() {
+                console.log('Started Connection');
+                started = true;
+            });
+        }
     }
 
     function send(name, message) {
-        chatProxy.invoke('send', name, message);
+        setTimeout(function() {
+            chatProxy.invoke('send', name, message);
+        }, 1);
     }
 
     function nextMessage(parameter1, parameter2, parameter3) {

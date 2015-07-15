@@ -9,14 +9,16 @@ function spikeSignalRController(echoService) {
     var viewModel = this;
 
 
-
     viewModel.onStartClick = function() {
 
         echoService.registerForEvent('broadcastMessage', onChatMessage);
         echoService.registerForEvent('aNewMessage', onOtherMessage);
 
-        echoService.nextMessage('FromTheScript', 'This is another message', 'I am tired and want to sleep');
-        echoService.send('FromTheScript', 'This is a test message');
+        setTimeout(function() {
+            echoService.nextMessage('FromTheScript', 'This is another message', 'I am tired and want to sleep');
+        }, 100);
+
+        //echoService.send('FromTheScript', 'This is a test message');
     };
 
     function onChatMessage(name, message) {
@@ -24,6 +26,6 @@ function spikeSignalRController(echoService) {
     }
 
     function onOtherMessage(parameter1, parameter2, parameter3) {
-        console.log(parameter1 + ' ' + parameter2 + ' ' + parameter3);
+        console.log('In SpikeSignalR = ' + parameter1 + ' ' + parameter2 + ' ' + parameter3);
     }
 }
