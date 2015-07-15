@@ -8,5 +8,24 @@ angular.module('myApp.spikeRemoteCall', [])
 function spikeRemoteCallController() {
     var viewModel = this;
 
-    viewModel.hookUpName = 'HOOK UP';
+
+
+
+    function createVideoPlayer(options) {
+        var videoContainer = $('#' + options.containerId);
+
+        var videoElement = $('<video></video>');
+
+        videoElement.attr('src', options.videoSource);
+        videoElement.attr('id', options.videoPlayerId);
+        videoElement.addClass(options.videoPlayerClass);
+
+        videoContainer.append(videoElement);
+
+        if (options.autoPlay) {
+            window.setTimeout(function() {
+                $('#' + options.videoPlayerId).get(0).play();
+            }, 10);
+        }
+    }
 }
