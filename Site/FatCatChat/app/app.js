@@ -9,6 +9,7 @@ angular.module('myApp', [
     'myApp.spikeWebRTCCall',
     'myApp.spikeTextAreaSending',
     'myApp.spikeSignalR',
+    'myApp.spikeRemoteCall',
     'myApp.version'
 ]).
     config(['$routeProvider', function($routeProvider) {
