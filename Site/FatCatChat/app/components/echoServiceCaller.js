@@ -26,9 +26,7 @@ function echoService(echoUrl) {
     function onOtherMessage(parameter1, parameter2, parameter3) {
         console.log('from echoService (aNewMessage) = ' + parameter1 + ' ' + parameter2 + ' ' + parameter3);
 
-        for (var i in aNewMessageCallbacks) {
-            aNewMessageCallbacks[i](parameter1, parameter2, parameter3);
-        }
+        for (var i in aNewMessageCallbacks) aNewMessageCallbacks[i](parameter1, parameter2, parameter3);
     }
 
     chatProxy.on('broadcastMessage', onBroadCastMessage);
