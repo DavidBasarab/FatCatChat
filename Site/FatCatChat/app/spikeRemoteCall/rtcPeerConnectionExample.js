@@ -12,6 +12,7 @@ function start(isCaller) {
 
     // send any ice candidates to the other peer
     pc.onicecandidate = function(evt) {
+        //  Basically what this is is when you get other users this will let them know they exist
         signalingChannel.send(JSON.stringify({"candidate": evt.candidate}));
     };
 
@@ -22,7 +23,10 @@ function start(isCaller) {
 
     // get the local stream, show it in the local video element and send it
     navigator.getUserMedia({"audio": true, "video": true}, function(stream) {
+
+        // This is the stream from the local browser
         selfView.src = URL.createObjectURL(stream);
+
         pc.addStream(stream);
 
         if (isCaller)

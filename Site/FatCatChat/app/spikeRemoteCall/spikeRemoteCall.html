@@ -1,9 +1,6 @@
 <div ng-controller="spikeRemoteCallController as viewModel">
 
-
-
-
-    <h1>WebRTC Codelab: Step 6</h1>
+    <h1>David Web RTC Spike</h1>
 
     <div class="videoContainers">
         <div id="localVideoContainer" class="playerContainer localPlayer">
@@ -12,20 +9,14 @@
         </div>
     </div>
 
-    <script>
-        var webrtc = new SimpleWebRTC({
-            // the id/element dom element that will hold "our" video
-            localVideoEl: 'localVideoContainer',
-            // the id/element dom element that will hold remote videos
-            remoteVideosEl: 'remoteVideoContainer',
-            // immediately ask for camera access
-            autoRequestMedia: true
-        });
+    <div style="display: block; clear: both;">
+        <button ng-click="viewModel.startClick()">
+            Start
+        </button>
+        <br />
+        <div id="loggingData"></div>
+    </div>
 
-        // we have to wait until it's ready
-        webrtc.on('readyToCall', function () {
-            // you can name it anything
-            webrtc.joinRoom('your awesome room name');
-        });
-    </script>
+
+
 </div>
