@@ -10,11 +10,17 @@
     </div>
 
     <div style="display: block; clear: both;">
-        <button ng-click="viewModel.startClick()">
-            Start
-        </button>
+        <div style="float: left;">
+            <button ng-click="viewModel.startClick()">
+                Start
+            </button>
+            <button ng-click="viewModel.makeCallClick()">
+                Call
+            </button>
+        </div>
+
         <br />
-        <div id="loggingData"></div>
+        <div style="clear: both;" id="loggingData"></div>
     </div>
 
 
